@@ -4,13 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.SparseArray;
 import android.view.View;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +31,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private RadioGroup mTabRadioGroup;
+    private SparseArray<Fragment> mFragmentSparseArray;
+    private Fruit[] fruits = {new Fruit("支付宝", R.drawable.ali_pay), new Fruit("淘宝", R.drawable.ali_pay), new Fruit("京东", R.drawable.ali_pay), new Fruit("QQ", R.drawable.ali_pay), new Fruit("百度", R.drawable.ali_pay), new Fruit("支付宝", R.drawable.ali_pay), new Fruit("淘宝", R.drawable.ali_pay), new Fruit("京东", R.drawable.ali_pay), new Fruit("QQ", R.drawable.ali_pay), new Fruit("百度", R.drawable.ali_pay)};
+    private List<Fruit> fruitList = new ArrayList<>();
+    private FruitAdapter adapter;
 
     private TextView mTvPosition;
 
@@ -42,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         requestPermissions();
+        initFruits();
 
         mTvSearch = findViewById(R.id.tv_search);
         mTvSearch.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +86,57 @@ public class MainActivity extends AppCompatActivity {
         mBanner.start();
 
         getLocation();
+    }
+
+    private void initFruits() {
+        RecyclerView recyclerView = findViewById(R.id.recycler_view);
+        adapter = new FruitAdapter(fruitList);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+        fruitList.clear();
+        for (int i = 0; i < 10; i++) {
+            //Random random = new Random();
+            //int index = random.nextInt(fruits.length);
+            //fruitList.add(fruits[index]);
+            fruitList.add(fruits[i]);
+        }
+        initView();
+    }
+
+    private void initView() {
+        mTabRadioGroup = findViewById(R.id.tabs_rg);
+        mFragmentSparseArray = new SparseArray<>();
+        mFragmentSparseArray.append(R.id.today_tab, BlankFragment.newInstance("首页"));
+        mFragmentSparseArray.append(R.id.record_tab, BlankFragment.newInstance("发现"));
+        mFragmentSparseArray.append(R.id.contact_tab, BlankFragment.newInstance("动态"));
+        mFragmentSparseArray.append(R.id.settings_tab, BlankFragment.newInstance("我的"));
+        mTabRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+
+//            public void onCheckedChanged(RadioGroup group, int checkedId) {
+//                // 具体的fragment切换逻辑可以根据应用调整，例如使用show()/hide()
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+//                        mFragmentSparseArray.get(checkedId)).commit();
+//            }
+
+
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId != R.id.today_tab)
+                    //Toast.makeText(MainActivity.this, String.valueOf(R.id.today_tab), Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+        });
+        // 默认显示第一个
+        //getSupportFragmentManager().beginTransaction().add(R.id.fragment_container,
+        //mFragmentSparseArray.get(R.id.today_tab)).commit();
+
+//        findViewById(R.id.sign_iv).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//            }
+//        });
     }
 
     public void requestPermissions() {

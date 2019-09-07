@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,8 +17,8 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:src="@drawable/ic_qr_code_gray64x"
-                android:layout_centerInParent="true"/>
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_qr_code_gray64x" />
 
         </RelativeLayout>
 
@@ -34,66 +34,122 @@
                 android:layout_height="30dp"
                 android:layout_centerInParent="true"
                 android:background="@drawable/btn_search"
-                android:searchIcon="@drawable/ic_search48x"/>
+                android:searchIcon="@drawable/ic_search48x" />
 
             <TextView
                 android:id="@+id/tv_search"
-                android:text="^_^"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="^_^" />
 
         </RelativeLayout>
 
         <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2">
 
-        <TextView
-            android:id="@+id/tv_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="2dp"/>
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/tv_position"
+                android:src="@drawable/ic_position" />
 
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_position"
-            android:layout_toEndOf="@id/tv_position"
-            android:layout_centerVertical="true"/>
+            <TextView
+                android:id="@+id/tv_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="2dp"
+                android:textSize="18sp" />
 
-    </RelativeLayout>
+        </RelativeLayout>
 
     </LinearLayout>
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="140dp"
             android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            >
+            android:paddingEnd="20dp">
 
-            <com.youth.banner.Banner
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/banner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:image_scale_type="fit_xy"/>
+                app:image_scale_type="fit_xy" />
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+
+            <FrameLayout
+                android:id="@+id/fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/tabs_rg"
+                android:layout_marginBottom="0dp" />
+
+            <RadioGroup
+                android:id="@+id/tabs_rg"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/today_tab"
+                    style="@style/Custom.TabRadioButton"
+                    android:checked="true"
+                    android:drawableTop="@drawable/tab_sign_selector"
+                    android:text="首页" />
+
+                <RadioButton
+                    android:id="@+id/record_tab"
+                    style="@style/Custom.TabRadioButton"
+                    android:drawableTop="@drawable/tab_record_selector"
+                    android:text="发现" />
+
+                <RadioButton
+                    android:id="@+id/contact_tab"
+                    style="@style/Custom.TabRadioButton"
+                    android:drawableTop="@drawable/tab_contact_selector"
+                    android:text="动态" />
+
+                <RadioButton
+                    android:id="@+id/settings_tab"
+                    style="@style/Custom.TabRadioButton"
+                    android:drawableTop="@drawable/tab_setting_selector"
+                    android:text="我的" />
+            </RadioGroup>
+
+        </RelativeLayout>
 
     </LinearLayout>
 
