@@ -9,4 +9,6 @@
     <color name="colorBlue">#0984e3</color>
     <color name="colorDBlue">#81ecec</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorPurple">#6072ea</color>
+    <color name="colorLine">#bdc3c7</color>
 </resources>

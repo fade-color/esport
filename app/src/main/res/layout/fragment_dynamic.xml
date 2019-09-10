@@ -1,13 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/linear_layout"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dynamic Fragment"
-        android:layout_centerInParent="true"
-        android:textSize="30sp"/>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-</RelativeLayout>
+        <RadioButton
+            android:id="@+id/btn_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rb_left"
+            android:button="@null"
+            android:checked="true"
+            android:paddingStart="20dp"
+            android:paddingEnd="8dp"
+            android:text="热门"
+            android:textColor="@color/radiobutton_color"
+            android:textSize="15sp" />
+
+        <RadioButton
+            android:id="@+id/btn_group"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/rb_right"
+            android:button="@null"
+            android:paddingStart="8dp"
+            android:paddingEnd="20dp"
+            android:text="圈子"
+            android:textColor="@color/radiobutton_color"
+            android:textSize="15sp" />
+
+    </RadioGroup>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/colorLine"/>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/popular_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>

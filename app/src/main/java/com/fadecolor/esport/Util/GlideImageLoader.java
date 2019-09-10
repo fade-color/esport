@@ -1,4 +1,4 @@
-package com.fadecolor.esport;
+package com.fadecolor.esport.Util;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -15,7 +15,7 @@ public class GlideImageLoader extends ImageLoader {
     public void displayImage(Context context, Object path, ImageView imageView) {
         Glide.with(context)
                 .load(path)
-                .apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(28, 0, RoundedCornersTransformation.CornerType.ALL)))
+                //.apply(RequestOptions.bitmapTransform(new RoundedCornersTransformation(256, -100, RoundedCornersTransformation.CornerType.BOTTOM)))
                 .into(imageView);
     }
 

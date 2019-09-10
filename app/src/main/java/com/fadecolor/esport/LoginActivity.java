@@ -35,12 +35,12 @@ public class LoginActivity extends AppCompatActivity {
 
         requestPermissions();
 
-        if (verifyLogin()) {
-            loginSuccess();
-        }
         mEtAccount = findViewById(R.id.et_account);
         mEtPassword = findViewById(R.id.et_password);
         mBtnLogin = findViewById(R.id.btn_login);
+        if (verifyLogin()) {
+            loginSuccess();
+        }
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

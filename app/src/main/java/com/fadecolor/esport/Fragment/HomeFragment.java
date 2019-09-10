@@ -1,43 +1,51 @@
-package com.fadecolor.esport;
+package com.fadecolor.esport.Fragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.fadecolor.esport.MainActivity;
+import com.fadecolor.esport.R;
+import com.fadecolor.esport.Util.GlideImageLoader;
 import com.youth.banner.Banner;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.common.Constant;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
 
-    private Fruit[] fruits = {new Fruit("支付宝", R.drawable.ali_pay), new Fruit("淘宝", R.drawable.ali_pay), new Fruit("京东", R.drawable.ali_pay), new Fruit("QQ", R.drawable.ali_pay), new Fruit("百度", R.drawable.ali_pay), new Fruit("支付宝", R.drawable.ali_pay), new Fruit("淘宝", R.drawable.ali_pay), new Fruit("京东", R.drawable.ali_pay), new Fruit("QQ", R.drawable.ali_pay), new Fruit("百度", R.drawable.ali_pay)};
-
-    private FruitAdapter adapter;
-
-    private List<Fruit> fruitList = new ArrayList<>();
-
-    private TextView mTvPosition;
+    private RadioButton mTvPosition;
 
     private TextView mTvSearch;
 
     private Banner mBanner;
+
+    private ImageView qrCodeScanner;
+
+    private LinearLayout linearLayout;
 
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
@@ -53,8 +61,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        initFruits(view);
-        Log.d(TAG, "onCreateView: ");
         mTvSearch = view.findViewById(R.id.tv_search);
         mTvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +68,26 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(view.getContext(), "不许点我>_<", Toast.LENGTH_SHORT).show();
             }
         });
+        qrCodeScanner = view.findViewById(R.id.qr_code_scanner);
+        qrCodeScanner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), CaptureActivity.class);
+                startActivityForResult(intent, MainActivity.REQUEST_CODE_SCAN);
+            }
+        });
+        int statusBarHeight = -1;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelOffset(resourceId);
+        }
+        linearLayout = view.findViewById(R.id.linear_layout);
+        linearLayout.setPadding(linearLayout.getPaddingStart(),statusBarHeight,linearLayout.getPaddingEnd(),linearLayout.getPaddingBottom());
         mTvPosition = view.findViewById(R.id.tv_position);
         mTvPosition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mTvPosition.setText("定位中");
                 getLocation();
             }
         });
@@ -87,6 +109,29 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 扫描二维码/条码回传
+        Log.d("aaa", "requestCode"+requestCode);
+        if (requestCode == MainActivity.REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+            if (data != null) {
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                if (content.matches("wechat")) {
+                    Intent intent = new Intent(Intent.ACTION_MAIN);
+                    ComponentName cmp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.LauncherUI");
+                    intent.setData(Uri.parse(content));
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.setComponent(cmp);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), content, Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+    }
+
     public void getLocation() {
         mLocationClient = new LocationClient(MainActivity.context);
         //声明LocationClient类
@@ -102,22 +147,6 @@ public class HomeFragment extends Fragment {
         //更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
         mLocationClient.start();
     }
-
-    private void initFruits(View view) {
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new FruitAdapter(fruitList);
-        GridLayoutManager layoutManager = new GridLayoutManager(view.getContext(), 5);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        fruitList.clear();
-        for (int i = 0; i < 10; i++) {
-            //Random random = new Random();
-            //int index = random.nextInt(fruits.length);
-            //fruitList.add(fruits[index]);
-            fruitList.add(fruits[i]);
-        }
-    }
-
 
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
@@ -135,6 +164,8 @@ public class HomeFragment extends Fragment {
             if (city != null) {
                 mTvPosition.setText(city);
                 locationText = city;
+            } else {
+                mTvPosition.setText(locationText);
             }
         }
     }
