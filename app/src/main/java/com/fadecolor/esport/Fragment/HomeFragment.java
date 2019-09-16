@@ -1,7 +1,10 @@
 package com.fadecolor.esport.Fragment;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +32,7 @@ import com.youth.banner.Banner;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -97,16 +101,22 @@ public class HomeFragment extends Fragment {
         // 设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         // 设置图片集合
-        String[] images = new String[] {
-                "https://cn.bing.com/th?id=OHR.MountFanjing_ZH-CN1999613800_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-                "https://cn.bing.com/th?id=OHR.ElMorro_ZH-CN1911346184_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp",
-                "https://cn.bing.com/th?id=OHR.Tegallalang_ZH-CN1855493751_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp"
-        };
-        List<String> imageList = Arrays.asList(images);
-        mBanner.setImages(imageList);
+        List<Uri> images = new ArrayList<>();
+        images.add(getUriFromDrawableRes(R.drawable.post_image1));
+        images.add(getUriFromDrawableRes(R.drawable.post_image3));
+        mBanner.setImages(images);
         mBanner.start();
         mTvPosition.setText(locationText);
         return view;
+    }
+
+    public Uri getUriFromDrawableRes(int id) {
+        Resources resources = getResources();
+        String path = ContentResolver.SCHEME_ANDROID_RESOURCE + "://"
+                + resources.getResourcePackageName(id) + "/"
+                + resources.getResourceTypeName(id) + "/"
+                + resources.getResourceEntryName(id);
+        return Uri.parse(path);
     }
 
     @Override

@@ -34,4 +34,6 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.0.1'
     implementation 'com.github.yuzhiqiang1993:zxing:2.2.8'
     implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.bigkoo:svprogresshud:1.0.6'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.0'
 }

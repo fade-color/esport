@@ -98,8 +98,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="72dp"
                 android:layout_marginEnd="20dp"
-                app:cardCornerRadius="15dp"
-                app:contentPadding="20dp">
+                app:cardCornerRadius="10dp"
+                app:contentPadding="20dp"
+                app:cardElevation="6dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -226,7 +227,8 @@
                             android:layout_height="110dp"
                             android:layout_weight="1"
                             app:cardCornerRadius="6dp"
-                            android:layout_margin="4dp">
+                            android:layout_margin="4dp"
+                            app:cardElevation="3dp">
 
                             <FrameLayout
                                 android:layout_width="match_parent"
@@ -264,19 +266,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
-                                app:cardCornerRadius="6dp">
+                                app:cardCornerRadius="6dp"
+                                app:cardElevation="3dp">
 
-                                <FrameLayout
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:paddingStart="15dp"
-                                    android:paddingEnd="15dp">
+                                    android:paddingEnd="15dp"
+                                    android:gravity="center">
 
                                     <ImageView
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:src="@mipmap/ic_badminton"
-                                        android:layout_gravity="center_vertical|start" />
+                                        android:paddingEnd="5dp"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -284,10 +288,9 @@
                                         android:text="羽毛球"
                                         android:textColor="#0a60ab"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"
-                                        android:layout_gravity="center_vertical|end"/>
+                                        android:textSize="15sp"/>
 
-                                </FrameLayout>
+                                </LinearLayout>
 
                             </androidx.cardview.widget.CardView>
 
@@ -295,19 +298,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
-                                app:cardCornerRadius="6dp">
+                                app:cardCornerRadius="6dp"
+                                app:cardElevation="3dp">
 
-                                <FrameLayout
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:paddingStart="15dp"
-                                    android:paddingEnd="15dp">
+                                    android:paddingEnd="15dp"
+                                    android:gravity="center">
 
                                     <ImageView
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:src="@mipmap/ic_table_tennis"
-                                        android:layout_gravity="center_vertical|start" />
+                                        android:paddingEnd="5dp"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -315,10 +320,9 @@
                                         android:text="乒乓球"
                                         android:textColor="#44bd32"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"
-                                        android:layout_gravity="center_vertical|end"/>
+                                        android:textSize="15sp"/>
 
-                                </FrameLayout>
+                                </LinearLayout>
 
                             </androidx.cardview.widget.CardView>
 
@@ -334,19 +338,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
-                                app:cardCornerRadius="6dp">
+                                app:cardCornerRadius="6dp"
+                                app:cardElevation="3dp">
 
-                                <FrameLayout
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:paddingStart="25dp"
-                                    android:paddingEnd="25dp">
+                                    android:paddingEnd="25dp"
+                                    android:gravity="center">
 
                                     <ImageView
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:src="@mipmap/ic_basketball"
-                                        android:layout_gravity="center_vertical|start" />
+                                        android:paddingEnd="5dp"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -354,10 +360,9 @@
                                         android:text="篮球"
                                         android:textColor="#e67e22"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"
-                                        android:layout_gravity="center_vertical|end"/>
+                                        android:textSize="15sp"/>
 
-                                </FrameLayout>
+                                </LinearLayout>
 
                             </androidx.cardview.widget.CardView>
 
@@ -365,19 +370,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
-                                app:cardCornerRadius="6dp">
+                                app:cardCornerRadius="6dp"
+                                app:cardElevation="3dp">
 
-                                <FrameLayout
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:paddingStart="25dp"
-                                    android:paddingEnd="25dp">
+                                    android:paddingEnd="25dp"
+                                    android:gravity="center">
 
                                     <ImageView
                                         android:layout_width="16dp"
                                         android:layout_height="16dp"
                                         android:src="@mipmap/ic_volleyball"
-                                        android:layout_gravity="center_vertical|start" />
+                                        android:paddingEnd="5dp"/>
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -385,10 +392,9 @@
                                         android:text="排球"
                                         android:textColor="#9b59b6"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"
-                                        android:layout_gravity="center_vertical|end"/>
+                                        android:textSize="15sp"/>
 
-                                </FrameLayout>
+                                </LinearLayout>
 
                             </androidx.cardview.widget.CardView>
 
@@ -405,7 +411,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@mipmap/poster4"
+                            android:src="@drawable/post_image2"
                             android:scaleType="fitXY"/>
 
                     </androidx.cardview.widget.CardView>
@@ -433,7 +439,7 @@
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@mipmap/poster4"
+                            android:src="@drawable/post_image2"
                             android:scaleType="fitXY"/>
 
                     </androidx.cardview.widget.CardView>

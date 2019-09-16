@@ -10,13 +10,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.fadecolor.esport.LoginActivity;
+import com.fadecolor.esport.MainActivity;
 import com.fadecolor.esport.R;
+import com.fadecolor.esport.Util.HttpUtil;
 import com.fadecolor.esport.tabactivity.AboutActivity;
 
 public class IndividualFragment extends Fragment {
@@ -25,12 +28,22 @@ public class IndividualFragment extends Fragment {
 
     private ImageView mIvHead;
 
+    private TextView mTvName;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_individual, container, false);
         mBtnLogout = view.findViewById(R.id.btn_logout);
         mIvHead = view.findViewById(R.id.iv_head);
+        mTvName = view.findViewById(R.id.tv_name);
+        SharedPreferences prefs = view.getContext().getSharedPreferences("account", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", -1);
+        if (userId == -1) {
+            mTvName.setText("未登录");
+        } else {
+            mTvName.setText(prefs.getString("userName", "昵称"));
+        }
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

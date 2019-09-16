@@ -36,7 +36,7 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/iv_head"
+            android:layout_toEndOf="@id/iv_head"
             android:text="昵称"
             android:textSize="17sp"
             android:layout_marginStart="30dp"
@@ -48,14 +48,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_badge"
-            android:layout_toRightOf="@id/tv_name"
+            android:layout_toEndOf="@id/tv_name"
             android:paddingTop="12dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="菜逼"
-            android:layout_toRightOf="@id/iv_badge"
+            android:text="菜鸟"
+            android:layout_toEndOf="@id/iv_badge"
             android:layout_marginTop="12dp"
             android:layout_marginStart="4dp" />
 
