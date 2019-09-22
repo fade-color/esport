@@ -36,4 +36,5 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.bigkoo:svprogresshud:1.0.6'
     implementation 'com.squareup.okhttp3:okhttp:4.2.0'
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
 }

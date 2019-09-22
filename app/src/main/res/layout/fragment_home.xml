@@ -53,7 +53,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="^_^" />
+                    android:text="搜索" />
 
             </RelativeLayout>
 
@@ -173,7 +173,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:background="@color/colorTransparent"
-                                android:text="9月10日"
+                                android:text="9月20日"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="18sp" />
 
@@ -272,8 +272,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:paddingStart="15dp"
-                                    android:paddingEnd="15dp"
+                                    android:paddingStart="10dp"
+                                    android:paddingEnd="10dp"
                                     android:gravity="center">
 
                                     <ImageView
@@ -288,7 +288,7 @@
                                         android:text="羽毛球"
                                         android:textColor="#0a60ab"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"/>
+                                        android:textSize="14sp"/>
 
                                 </LinearLayout>
 
@@ -304,8 +304,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:paddingStart="15dp"
-                                    android:paddingEnd="15dp"
+                                    android:paddingStart="10dp"
+                                    android:paddingEnd="10dp"
                                     android:gravity="center">
 
                                     <ImageView
@@ -320,7 +320,7 @@
                                         android:text="乒乓球"
                                         android:textColor="#44bd32"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"/>
+                                        android:textSize="14sp"/>
 
                                 </LinearLayout>
 
@@ -344,8 +344,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:paddingStart="25dp"
-                                    android:paddingEnd="25dp"
+                                    android:paddingStart="20dp"
+                                    android:paddingEnd="20dp"
                                     android:gravity="center">
 
                                     <ImageView
@@ -360,7 +360,7 @@
                                         android:text="篮球"
                                         android:textColor="#e67e22"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"/>
+                                        android:textSize="14sp"/>
 
                                 </LinearLayout>
 
@@ -376,8 +376,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:paddingStart="25dp"
-                                    android:paddingEnd="25dp"
+                                    android:paddingStart="20dp"
+                                    android:paddingEnd="20dp"
                                     android:gravity="center">
 
                                     <ImageView
@@ -392,7 +392,7 @@
                                         android:text="排球"
                                         android:textColor="#9b59b6"
                                         android:textStyle="bold"
-                                        android:textSize="15sp"/>
+                                        android:textSize="14sp"/>
 
                                 </LinearLayout>
 

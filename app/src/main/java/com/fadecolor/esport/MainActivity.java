@@ -22,7 +22,7 @@ import com.fadecolor.esport.Fragment.InventionFragment;
 
 import static android.view.KeyEvent.KEYCODE_BACK;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     public static final int REQUEST_CODE_SCAN = 1;
 
@@ -76,14 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 .add(R.id.fragment_container, mFragmentSparseArray.get(R.id.today_tab))
                 .commit();
         currentFragmentId = fragmentIndex.get(R.id.today_tab);
-    }
-
-    private void setTransStatusBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            View decorView = getWindow().getDecorView();
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
     }
 
     @Override
