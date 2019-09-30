@@ -44,7 +44,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTransStatusBar();
         setContentView(R.layout.activity_login);
 
         requestPermissions();
@@ -54,10 +53,11 @@ public class LoginActivity extends BaseActivity {
         mBtnLogin = findViewById(R.id.btn_login);
         if (verifyLogin()) {
             SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
-            int userId = prefs.getInt("userId",-1);
+            String userId = prefs.getString("userId","null");
             String userName = prefs.getString("userName", "昵称");
-            if (userId > 0) {
-                loginSuccess(userId, userName);
+            String headPath = prefs.getString("headPath", "null");
+            if (!userId.equals("null")) {
+                loginSuccess(userId, userName, headPath);
             }
         }
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
@@ -91,19 +91,15 @@ public class LoginActivity extends BaseActivity {
                             if (statusCode == 100) {
                                 JSONObject extend = jsonObject.getJSONObject("extend");
                                 JSONObject userJSON = extend.getJSONObject("user");
-                                final int userId = userJSON.getInt("userId");
+                                final String userId = userJSON.getString("tel");
                                 final String userName = userJSON.getString("userName");
+                                final String headPath = userJSON.getString("headPath");
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         progressHUD.dismissImmediately();
                                         progressHUD1.showSuccessWithStatus("登录成功", SVProgressHUD.SVProgressHUDMaskType.Black);
-                                        try {
-                                            Thread.sleep(500);
-                                        } catch (InterruptedException e) {
-                                            e.printStackTrace();
-                                        }
-                                        loginSuccess(userId, userName);
+                                        loginSuccess(userId, userName, headPath);
                                     }
                                 });
                             } else if (statusCode == 200) {
@@ -133,20 +129,21 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-    private void loginSuccess(int userId, String userName) {
+    private void loginSuccess(String userId, String userName, String headPath) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                intent.putExtra("data_name",data); // 传递数据
+//        intent.putExtra("headPath",headPath); // 传递数据
+        saveLoginInformation(userId, userName, headPath);
         startActivity(intent);
-        saveLoginInformation(userId, userName);
         finish();
     }
 
-    private void saveLoginInformation(int userId, String userName) {
+    private void saveLoginInformation(String userId, String userName, String headPath) {
         SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
         editor.putString("account", mEtAccount.getText().toString());
         editor.putBoolean("status", true); // 表示已登录过
-        editor.putInt("userId", userId);
+        editor.putString("userId", userId);
         editor.putString("userName", userName);
+        editor.putString("headPath", headPath);
         editor.apply();
     }
 

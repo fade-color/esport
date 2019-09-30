@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".PhotoViewActivity"></activity>
+        <activity android:name=".CreateActivity" />
+        <activity android:name=".PersonalDetailsActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity android:name=".tabactivity.AboutActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -25,6 +28,15 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="LOkGhcte3pKGqfiKsmWs25zqEn15BtUW" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.fadecolor.esport.fileprovider"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <service
             android:name="com.baidu.location.f"

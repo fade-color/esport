@@ -29,7 +29,6 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTransStatusBar();
         setContentView(R.layout.activity_register);
 
         mEtTel = findViewById(R.id.et_account);

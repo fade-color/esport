@@ -10,19 +10,33 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.fadecolor.esport.LoginActivity;
 import com.fadecolor.esport.MainActivity;
+import com.fadecolor.esport.PersonalDetailsActivity;
 import com.fadecolor.esport.R;
+import com.fadecolor.esport.Util.Constant;
 import com.fadecolor.esport.Util.HttpUtil;
+import com.fadecolor.esport.domain.User;
 import com.fadecolor.esport.tabactivity.AboutActivity;
 
-public class IndividualFragment extends Fragment {
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+public class IndividualFragment extends Fragment implements View.OnClickListener {
 
     private Button mBtnLogout;
 
@@ -30,31 +44,36 @@ public class IndividualFragment extends Fragment {
 
     private TextView mTvName;
 
+    private RelativeLayout headerRelativeLayout;
+
+    private User user;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        user = new User();
         View view = inflater.inflate(R.layout.fragment_individual, container, false);
         mBtnLogout = view.findViewById(R.id.btn_logout);
         mIvHead = view.findViewById(R.id.iv_head);
         mTvName = view.findViewById(R.id.tv_name);
+        headerRelativeLayout = view.findViewById(R.id.header_relative_layout);
+        headerRelativeLayout.setOnClickListener(this);
         SharedPreferences prefs = view.getContext().getSharedPreferences("account", Context.MODE_PRIVATE);
-        int userId = prefs.getInt("userId", -1);
-        if (userId == -1) {
+        String userId = prefs.getString("userId", "null");
+        if (userId.equals("null")) {
             mTvName.setText("未登录");
         } else {
-            mTvName.setText(prefs.getString("userName", "昵称"));
-        }
-        mBtnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPreferences.Editor editor = view.getContext().getSharedPreferences("account", Context.MODE_PRIVATE).edit();
-                editor.clear();
-                editor.apply();
-                Intent intent = new Intent(view.getContext(), LoginActivity.class);
-                startActivity(intent);
-                getActivity().finish();
+            String userName = prefs.getString("userName", "昵称");
+            String headPath = prefs.getString("headPath", "null");
+            user.setTel(userId);
+            user.setUsername(userName);
+            user.setHeadPath(headPath);
+            if (!"null".equals(headPath)) {
+                Glide.with(getContext()).load(Constant.HEAD_PATH + headPath).into(mIvHead);
             }
-        });
+            mTvName.setText("null".equals(userName)? userId+"":userName);
+        }
+        mBtnLogout.setOnClickListener(this);
         int statusBarHeight = -1;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
@@ -63,13 +82,64 @@ public class IndividualFragment extends Fragment {
         LinearLayout linearLayout = view.findViewById(R.id.linear_layout);
         linearLayout.setPadding(linearLayout.getPaddingStart(),statusBarHeight,linearLayout.getPaddingEnd(),linearLayout.getPaddingBottom());
         LinearLayout about = view.findViewById(R.id.about);
-        about.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AboutActivity.class);
-                startActivity(intent);
-            }
-        });
+        about.setOnClickListener(this);
         return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent;
+        switch (view.getId()) {
+            case R.id.header_relative_layout:
+                intent = new Intent(view.getContext(), PersonalDetailsActivity.class);
+                startActivityForResult(intent, 1);
+                break;
+            case R.id.about:
+                intent = new Intent(view.getContext(), AboutActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_logout:
+                SharedPreferences.Editor editor = view.getContext().getSharedPreferences("account", Context.MODE_PRIVATE).edit();
+                editor.clear();
+                editor.apply();
+                intent = new Intent(view.getContext(), LoginActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == 1) {
+                    final String userName = data.getStringExtra("userName");
+                    final String headPath = data.getStringExtra("headPath");
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!userName.equals(user.getUsername())) {
+                                mTvName.setText(userName);
+                                user.setUsername(userName);
+                            }
+                            if (!headPath.equals(user.getHeadPath())) {
+                                Glide.with(getContext()).load(Constant.HEAD_PATH+headPath).into(mIvHead);
+                                user.setHeadPath(headPath);
+                            }
+                        }
+                    });
+                }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        SharedPreferences.Editor editor = getContext().getSharedPreferences("account", Context.MODE_PRIVATE).edit();
+        editor.putString("userName", user.getUsername());
+        editor.putString("headPath", user.getHeadPath());
+        editor.apply();
     }
 }

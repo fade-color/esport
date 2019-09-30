@@ -1,61 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linear_layout"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RadioGroup
+    <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/btn_popular"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/rb_left"
-            android:button="@null"
-            android:checked="true"
-            android:paddingStart="20dp"
-            android:paddingEnd="8dp"
-            android:text="热门"
-            android:textColor="@color/radiobutton_color"
-            android:textSize="15sp" />
-
-        <RadioButton
-            android:id="@+id/btn_group"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@drawable/rb_right"
-            android:button="@null"
-            android:paddingStart="8dp"
-            android:paddingEnd="20dp"
-            android:text="圈子"
-            android:textColor="@color/radiobutton_color"
-            android:textSize="15sp" />
-
-    </RadioGroup>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorLine"/>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/popular_recyclerview"
+        <RadioGroup
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        </androidx.recyclerview.widget.RecyclerView>
+            <RadioButton
+                android:id="@+id/btn_popular"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/rb_left"
+                android:button="@null"
+                android:checked="true"
+                android:paddingStart="20dp"
+                android:paddingEnd="8dp"
+                android:text="热门"
+                android:textColor="@color/radiobutton_color"
+                android:textSize="15sp" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            <RadioButton
+                android:id="@+id/btn_group"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="@drawable/rb_right"
+                android:button="@null"
+                android:paddingStart="8dp"
+                android:paddingEnd="20dp"
+                android:text="圈子"
+                android:textColor="@color/radiobutton_color"
+                android:textSize="15sp" />
 
-</LinearLayout>
+        </RadioGroup>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/colorLine"/>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            app:srlPrimaryColor="@android:color/white"
+            app:srlAccentColor="#444444"
+            app:srlEnablePreviewInEditMode="true">
+
+            <com.scwang.smartrefresh.layout.header.ClassicsHeader
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/popular_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+    <com.getbase.floatingactionbutton.AddFloatingActionButton
+        android:id="@+id/create_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:fab_colorNormal="#60FFFFFF"
+        app:fab_colorPressed="#60f1f2f6"
+        app:fab_plusIconColor="@color/colorPurple"
+        android:layout_margin="16dp"/>
+
+</FrameLayout>

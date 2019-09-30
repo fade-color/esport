@@ -4,7 +4,7 @@ public class User {
 
     private int userId;
 
-    private int tel;
+    private String tel;
 
     private String password;
 
@@ -17,7 +17,7 @@ public class User {
     public User() {
     }
 
-    public User(int userId, int tel, String password, String username, String sex, String headPath) {
+    public User(int userId, String tel, String password, String username, String sex, String headPath) {
         this.userId = userId;
         this.tel = tel;
         this.password = password;
@@ -26,7 +26,7 @@ public class User {
         this.headPath = headPath;
     }
 
-    public User(int tel, String password, String username, String sex, String headPath) {
+    public User(String tel, String password, String username, String sex, String headPath) {
         this.tel = tel;
         this.password = password;
         this.username = username;
@@ -42,11 +42,11 @@ public class User {
         this.userId = userId;
     }
 
-    public int getTel() {
+    public String getTel() {
         return tel;
     }
 
-    public void setTel(int tel) {
+    public void setTel(String tel) {
         this.tel = tel;
     }
 

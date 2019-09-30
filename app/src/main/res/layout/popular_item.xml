@@ -11,8 +11,7 @@
             android:id="@+id/user_head"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_margin="15dp"
-            android:src="@drawable/ic_head" />
+            android:layout_margin="15dp"/>
 
     </LinearLayout>
 
@@ -27,7 +26,6 @@
             android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="京东东"
             android:layout_marginTop="22dp"
             android:textColor="@color/colorBlack"
             android:textSize="16sp" />
@@ -36,27 +34,25 @@
             android:id="@+id/tv_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="09月20日 17:32"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tv_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="有约一起打羽毛球的吗，可固定下来定期约打，锻炼身体和磨练技术"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:textSize="15sp"
             android:textColor="@color/colorBlack" />
 
-        <ImageView
+        <com.fadecolor.esport.customize.AdaptiveImageView
             android:id="@+id/iv_image"
-            android:layout_width="200dp"
-            android:layout_height="150dp"
-            android:src="@drawable/image_example"
-            android:scaleType="centerCrop"
-            android:layout_marginBottom="10dp" />
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -74,7 +70,6 @@
                 android:id="@+id/tv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="河南科技大学体育馆"
                 android:layout_marginStart="20dp"
                 android:textColor="@color/colorPurple"/>
 
@@ -87,10 +82,9 @@
                 android:layout_marginTop="2dp"/>
 
             <TextView
-                android:id="@+id/iv_comment_num"
+                android:id="@+id/tv_comment_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="99+"
                 android:textColor="@color/colorPurple"
                 android:layout_alignParentEnd="true" />
 
