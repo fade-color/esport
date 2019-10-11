@@ -22,28 +22,6 @@ public class HttpUtil {
 
     private static String session_id = null;
 
-    public static void getSession() {
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(Constant.SEVER_ADDRESS)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) {
-                Headers headers = response.headers();
-                List<String> cookies = headers.values("Set-Cookie");
-                String session = cookies.get(0);
-                session_id = session.substring(0, session.indexOf(";"));
-                Log.d("aaa", session_id);
-            }
-        });
-    }
-
     public static void sendOkHttpRequest(String address, okhttp3.Callback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()

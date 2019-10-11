@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -92,6 +93,7 @@ public class IndividualFragment extends Fragment implements View.OnClickListener
         switch (view.getId()) {
             case R.id.header_relative_layout:
                 intent = new Intent(view.getContext(), PersonalDetailsActivity.class);
+                intent.putExtra("tel",user.getTel());
                 startActivityForResult(intent, 1);
                 break;
             case R.id.about:
@@ -110,24 +112,28 @@ public class IndividualFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1:
                 if (resultCode == 1) {
-                    final String userName = data.getStringExtra("userName");
-                    final String headPath = data.getStringExtra("headPath");
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            SharedPreferences.Editor editor = getContext().getSharedPreferences("account", Context.MODE_PRIVATE).edit();
+                            String userName = data.getStringExtra("userName");
+                            String headPath = data.getStringExtra("headPath");
                             if (!userName.equals(user.getUsername())) {
                                 mTvName.setText(userName);
                                 user.setUsername(userName);
+                                editor.putString("userName",userName);
                             }
                             if (!headPath.equals(user.getHeadPath())) {
                                 Glide.with(getContext()).load(Constant.HEAD_PATH+headPath).into(mIvHead);
                                 user.setHeadPath(headPath);
+                                editor.putString("headPath",headPath);
                             }
+                            editor.apply();
                         }
                     });
                 }

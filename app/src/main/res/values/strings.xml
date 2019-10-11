@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">易运动-Demo</string>
+    <string name="app_name">易动体育-Demo</string>
     <string name="register_info_unsupport_message">暂不支持手机验证码注册</string>
     <string name="register_info_already_register">该号码已经注册，请返回登录</string>
 </resources>

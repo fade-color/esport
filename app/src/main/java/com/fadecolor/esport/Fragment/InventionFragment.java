@@ -26,8 +26,8 @@ public class InventionFragment extends Fragment {
         webView = view.findViewById(R.id.web_view);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://iot2world.xyz:8080/edty/");
-//        webView.loadUrl("https://www.baidu.com");
+        webView.loadUrl("http://qinian.xyz");
+//        webView.loadUrl("http://iot2world.xyz:8080/edty/");
         int statusBarHeight = -1;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

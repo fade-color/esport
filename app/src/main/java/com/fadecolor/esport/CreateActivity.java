@@ -131,7 +131,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                             progressHUD.showWithStatus("正在上传图片",SVProgressHUD.SVProgressHUDMaskType.Black);
                         }
                     });
-                    HttpUtil.uploadImage(Constant.UPLOAD_HEAD_PATH, imagePath, new Callback() {
+                    HttpUtil.uploadImage(Constant.UPLOAD_ACTIVITY_PATH, imagePath, new Callback() {
                         @Override
                         public void onFailure(@NotNull Call call, @NotNull IOException e) {
                             runOnUiThread(new Runnable() {
