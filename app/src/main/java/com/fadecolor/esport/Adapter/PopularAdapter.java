@@ -2,16 +2,20 @@ package com.fadecolor.esport.Adapter;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.fadecolor.esport.CommentActivity;
 import com.fadecolor.esport.PhotoViewActivity;
 import com.fadecolor.esport.R;
 import com.fadecolor.esport.Util.Constant;
@@ -35,6 +39,8 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        LinearLayout itemLayout;
+
         CircleImageView userHead;
 
         TextView userName;
@@ -51,6 +57,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemLayout = itemView.findViewById(R.id.item_layout);
             userHead = itemView.findViewById(R.id.user_head);
             userName = itemView.findViewById(R.id.user_name);
             time = itemView.findViewById(R.id.tv_now);
@@ -64,8 +71,23 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.popular_item, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.popular_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
+        holder.itemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                Activity activity = activities.get(position);
+                int activityId = activity.getActivityId();
+                String userName = activity.getUserName();
+                String headPath = activity.getHeadPath();
+                Intent intent = new Intent(view.getContext(), CommentActivity.class);
+                intent.putExtra("activityId", activityId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("headPath", headPath);
+                view.getContext().startActivity(intent);
+            }
+        });
         holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

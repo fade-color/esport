@@ -11,4 +11,5 @@
     <color name="colorTransparent">#00000000</color>
     <color name="colorPurple">#6072ea</color>
     <color name="colorLine">#bdc3c7</color>
+    <color name="colorDeepGray">#999</color>
 </resources>
