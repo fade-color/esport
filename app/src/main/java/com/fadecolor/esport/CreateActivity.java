@@ -58,6 +58,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
 
     public static final int CHOOSE_PHOTO = 2;
 
+    public static final int GET_POSITION = 3;
+
     private TextView mTvSubmit, mTvPosition, mTvMask, mTvChooseFromGallery, mTvTakePhoto, mTvCancelPic, mTvDeletePic;
 
     private ImageView mIvBack, mIvAddPic;
@@ -110,10 +112,6 @@ private int t = 0;
         mTvTakePhoto.setOnClickListener(this);
         mTvDeletePic.setOnClickListener(this);
         mTvCancelPic.setOnClickListener(this);
-        intent = getIntent();
-        String i = intent.getStringExtra("data");
-        if(null != i) mTvPosition.setText(i);
-        else  mTvPosition.setText("获取位置");
     }
 
     @Override
@@ -277,7 +275,7 @@ private int t = 0;
                 break;
             case R.id.tv_position:
                     intent = new Intent(CreateActivity.this, LocationActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,GET_POSITION);
                 break;
             case R.id.tv_cancel_pic:
             case R.id.tv_mask:
@@ -328,6 +326,8 @@ private int t = 0;
         intent.setType("image/*");
         startActivityForResult(intent, CHOOSE_PHOTO);
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -390,6 +390,12 @@ private int t = 0;
                     }
                 }
                 break;
+            case GET_POSITION:
+                if (resultCode == RESULT_OK) {
+                    String position = data.getStringExtra("data");
+                    if(null != position) mTvPosition.setText(position);
+                    else  mTvPosition.setText("获取位置");
+                }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

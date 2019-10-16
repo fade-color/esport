@@ -179,7 +179,8 @@ public class LocationActivity extends AppCompatActivity implements CompoundButto
         String i = (String) listView.getAdapter().getItem(position);
         Intent intent = new Intent(LocationActivity.this,CreateActivity.class);
         intent.putExtra("data", i);
-        startActivity(intent);
+        setResult(RESULT_OK, intent);
+        finish();
           //Toast.makeText(LocationActivity.this,"点击 pos:"+i,Toast.LENGTH_SHORT).show();
     }
 
