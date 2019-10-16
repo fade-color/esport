@@ -58,6 +58,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
 
     public static final int CHOOSE_PHOTO = 2;
 
+    public static final int GET_POSITION = 3;
+
     private TextView mTvSubmit, mTvPosition, mTvMask, mTvChooseFromGallery, mTvTakePhoto, mTvCancelPic, mTvDeletePic;
 
     private ImageView mIvBack, mIvAddPic;
@@ -73,7 +75,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
     private boolean isHavePic = false;
 
     private String imagePath = null;
-
+    private Intent intent;
+private int t = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
             statusBarHeight = getResources().getDimensionPixelOffset(resourceId);
         }
         LinearLayout linearLayout = findViewById(R.id.linear_layout);
-        linearLayout.setPadding(linearLayout.getPaddingStart(),statusBarHeight,linearLayout.getPaddingEnd(),linearLayout.getPaddingBottom());
+        linearLayout.setPadding(linearLayout.getPaddingStart(), statusBarHeight, linearLayout.getPaddingEnd(), linearLayout.getPaddingBottom());
         yOffset = getYOffset();
 
         mIvBack = findViewById(R.id.iv_back);
@@ -113,7 +116,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-        Intent intent;
+
         switch (view.getId()) {
             case R.id.iv_back:
                 setResult(0);
@@ -128,7 +131,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            progressHUD.showWithStatus("正在上传图片",SVProgressHUD.SVProgressHUDMaskType.Black);
+                            progressHUD.showWithStatus("正在上传图片", SVProgressHUD.SVProgressHUDMaskType.Black);
                         }
                     });
                     HttpUtil.uploadImage(Constant.UPLOAD_ACTIVITY_PATH, imagePath, new Callback() {
@@ -151,12 +154,12 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                                 public void run() {
                                     progressHUD.dismissImmediately();
                                     final SVProgressHUD progressHUD1 = new SVProgressHUD(CreateActivity.this);
-                                    progressHUD1.showWithStatus("正在发表动态",SVProgressHUD.SVProgressHUDMaskType.Black);
+                                    progressHUD1.showWithStatus("正在发表动态", SVProgressHUD.SVProgressHUDMaskType.Black);
                                     SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
                                     String tel = prefs.getString("userId", null);
-                                    HttpUtil.sendOkHttpRequest(Constant.SEVER_ADDRESS + "/activity/submit?tel="+tel+"&content=" +
+                                    HttpUtil.sendOkHttpRequest(Constant.SEVER_ADDRESS + "/activity/submit?tel=" + tel + "&content=" +
                                                     mEtContent.getText().toString() + "&image_src=" + imageSrc + "&location=" +
-                                                    (mTvPosition.getText().toString().equals("获取位置")? "null":mTvPosition.getText().toString()),
+                                                    (mTvPosition.getText().toString().equals("获取位置") ? "null" : mTvPosition.getText().toString()),
                                             new Callback() {
                                                 @Override
                                                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -212,12 +215,12 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                     });
                 } else {
                     final SVProgressHUD progressHUD1 = new SVProgressHUD(CreateActivity.this);
-                    progressHUD1.showWithStatus("正在发表动态",SVProgressHUD.SVProgressHUDMaskType.Black);
+                    progressHUD1.showWithStatus("正在发表动态", SVProgressHUD.SVProgressHUDMaskType.Black);
                     SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
                     String tel = prefs.getString("userId", null);
-                    HttpUtil.sendOkHttpRequest(Constant.SEVER_ADDRESS + "/activity/submit?tel="+tel+"&content=" +
+                    HttpUtil.sendOkHttpRequest(Constant.SEVER_ADDRESS + "/activity/submit?tel=" + tel + "&content=" +
                                     mEtContent.getText().toString() + "&image_src=null&location=" +
-                                    (mTvPosition.getText().toString().equals("获取位置")? "null":mTvPosition.getText().toString()),
+                                    (mTvPosition.getText().toString().equals("获取位置") ? "null" : mTvPosition.getText().toString()),
                             new Callback() {
                                 @Override
                                 public void onFailure(@NotNull Call call, @NotNull IOException e) {
@@ -271,6 +274,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
 
                 break;
             case R.id.tv_position:
+                    intent = new Intent(CreateActivity.this, LocationActivity.class);
+                    startActivityForResult(intent,GET_POSITION);
                 break;
             case R.id.tv_cancel_pic:
             case R.id.tv_mask:
@@ -278,7 +283,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.tv_choose_from_gallery:
                 if (ContextCompat.checkSelfPermission(CreateActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(CreateActivity.this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, 1);
+                    ActivityCompat.requestPermissions(CreateActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     openAlbum();
                 }
@@ -322,6 +327,8 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
         startActivityForResult(intent, CHOOSE_PHOTO);
     }
 
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
@@ -359,7 +366,7 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                         String docId = DocumentsContract.getDocumentId(uri);
                         if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
                             String id = docId.split(":")[1]; // 解析出数字格式的id
-                            String selection = MediaStore.Images.Media._ID + "=" +id;
+                            String selection = MediaStore.Images.Media._ID + "=" + id;
                             imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
                         } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
                             Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
@@ -383,8 +390,14 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
                     }
                 }
                 break;
+            case GET_POSITION:
+                if (resultCode == RESULT_OK) {
+                    String position = data.getStringExtra("data");
+                    if(null != position) mTvPosition.setText(position);
+                    else  mTvPosition.setText("获取位置");
+                }
         }
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private String getImagePath(Uri externalContentUri, String selection) {
@@ -412,9 +425,9 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
             mTvDeletePic.setVisibility(View.GONE);
             mTvTakePhoto.setBackgroundResource(R.drawable.card_backgroud);
         }
-        TranslateAnimation animation = new TranslateAnimation(0,0,yOffset,0);
+        TranslateAnimation animation = new TranslateAnimation(0, 0, yOffset, 0);
         animation.setDuration(200);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0,1);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(200);
         mPicSelect.setAnimation(animation);
         mTvMask.setAnimation(alphaAnimation);
@@ -423,9 +436,9 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void hideSelectPic() {
-        TranslateAnimation animation = new TranslateAnimation(0,0,0,yOffset);
+        TranslateAnimation animation = new TranslateAnimation(0, 0, 0, yOffset);
         animation.setDuration(200);
-        AlphaAnimation alphaAnimation = new AlphaAnimation(1,0);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
         alphaAnimation.setDuration(200);
         mPicSelect.setAnimation(animation);
         mTvMask.setAnimation(alphaAnimation);
@@ -439,6 +452,6 @@ public class CreateActivity extends BaseActivity implements View.OnClickListener
         if (getApplicationContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getApplicationContext().getResources().getDisplayMetrics());
         }
-        return getResources().getDimension(R.dimen.one_dip) + actionBarHeight*3;
+        return getResources().getDimension(R.dimen.one_dip) + actionBarHeight * 3;
     }
 }
