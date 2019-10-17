@@ -25,11 +25,6 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.services.core.LatLonPoint;
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.fadecolor.esport.MainActivity;
 import com.fadecolor.esport.R;
 import com.fadecolor.esport.Util.GlideImageLoader;
@@ -55,9 +50,6 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     private ImageView qrCodeScanner;
 
     private LinearLayout linearLayout;
-
-    //    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
     private String locationText = "点击获取";
 
     private AMapLocationClient locationClient = null;
@@ -67,7 +59,6 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // getLocation();
         requestLocation();//高德定位
 
     }
