@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.amap.api.services.core.PoiItem;
 import com.amap.api.services.help.Inputtips;
 import com.amap.api.services.help.InputtipsQuery;
 import com.amap.api.services.help.Tip;
+import com.amap.api.services.poisearch.Photo;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.fadecolor.esport.Fragment.DynamicFragment;
@@ -32,7 +34,7 @@ import com.fadecolor.esport.Fragment.DynamicFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, AMapLocationListener, LocationSource, PoiSearch.OnPoiSearchListener, Inputtips.InputtipsListener, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
+public class LocationActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AMapLocationListener, LocationSource, PoiSearch.OnPoiSearchListener, Inputtips.InputtipsListener, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationClientOption = null;    //定位参数类
@@ -47,18 +49,30 @@ public class LocationActivity extends AppCompatActivity implements CompoundButto
     private String city = "北京";
     private ArrayAdapter<String> adapter;
     private LatLonPoint point;
+    private int t = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTransStatusBar();
         //初始化定位
         locationClient = new AMapLocationClient(getApplicationContext());
         locationClient.setLocationListener(this);
         setContentView(R.layout.activity_location);
+
+        int statusBarHeight = -1;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelOffset(resourceId);
+        }
+        LinearLayout linearLayout = findViewById(R.id.linear_layout);
+        linearLayout.setPadding(linearLayout.getPaddingStart(), statusBarHeight, linearLayout.getPaddingEnd(), linearLayout.getPaddingBottom());
+
         listView = findViewById(R.id.list_view1);
         searchView = findViewById(R.id.input);
         searchView.setOnQueryTextListener(this);
         requestPermission();
+
     }
     //权限设置
     private void requestPermission() {
@@ -129,7 +143,10 @@ public class LocationActivity extends AppCompatActivity implements CompoundButto
         city = amapLocation.getCity();//获取当前城市
         point = new LatLonPoint(latitude, longitude);
         amapLocation.getAccuracy();//获取精度信息
-        onQueryTextChange("");
+        if (t==0){
+        onQueryTextSubmit("");
+        t++;
+        }
     }
 
     @Override
@@ -186,6 +203,16 @@ public class LocationActivity extends AppCompatActivity implements CompoundButto
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        if (query.isEmpty()) {
+            PoiSearch.Query query1 = new PoiSearch.Query("", "体育休闲服务", "");
+            query1.setPageSize(10);
+            PoiSearch search = new PoiSearch(this, query1);
+            search.setBound(new PoiSearch.SearchBound(point, 1000));//设置周边搜索的中心点以及半径//设置周边搜索的中心点以及半径
+            search.setOnPoiSearchListener(this);
+            search.searchPOIAsyn();
+        }
+        else
+        onQueryTextChange("");
         return false;
     }
 
@@ -197,16 +224,9 @@ public class LocationActivity extends AppCompatActivity implements CompoundButto
             Inputtips inputTips = new Inputtips(LocationActivity.this, inputtipsQuery);
             inputTips.setInputtipsListener(this);
             inputTips.requestInputtipsAsyn();
-        } else {
-            PoiSearch.Query query = new PoiSearch.Query("", "体育休闲服务", "");
-            query.setPageSize(10);
-            PoiSearch search = new PoiSearch(this, query);
-            search.setBound(new PoiSearch.SearchBound(point, 1000));//设置周边搜索的中心点以及半径//设置周边搜索的中心点以及半径
-            search.setOnPoiSearchListener(this);
-            search.searchPOIAsyn();
-
         }
-
+        else
+            t=0;
         return false;
     }
 
@@ -232,6 +252,5 @@ public class LocationActivity extends AppCompatActivity implements CompoundButto
             locationClientOption = null;
         }
     }
-
 
 }

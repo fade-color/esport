@@ -56,9 +56,6 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     private ImageView qrCodeScanner;
 
     private LinearLayout linearLayout;
-
-    //    public LocationClient mLocationClient = null;
-//    private MyLocationListener myListener = new MyLocationListener();
     private String locationText = "点击获取";
 
     private AMapLocationClient locationClient = null;
@@ -68,7 +65,6 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // getLocation();
         requestLocation();//高德定位
 
     }
