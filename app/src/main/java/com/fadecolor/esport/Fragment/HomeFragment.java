@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.amap.api.location.AMapLocation;
@@ -38,16 +39,20 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
-public class HomeFragment extends Fragment implements AMapLocationListener {
+public class HomeFragment extends Fragment implements AMapLocationListener , View.OnClickListener {
     private static final String TAG = "HomeFragment";
 
     private RadioButton mTvPosition;
+
+    private TextView position;
 
     private TextView mTvSearch;
 
     private Banner mBanner;
 
     private ImageView qrCodeScanner;
+
+    private CardView gym,yugym,pinggym,paigym,langym;
 
     private LinearLayout linearLayout;
     private String locationText = "点击获取";
@@ -60,7 +65,6 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestLocation();//高德定位
-
     }
 
     @Nullable
@@ -68,6 +72,45 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         mTvSearch = view.findViewById(R.id.tv_search);
+        position = view.findViewById(R.id.position);
+        gym = view.findViewById(R.id.Gym);
+        langym = view.findViewById(R.id.LanGym);
+        yugym = view.findViewById(R.id.YuGym);
+        pinggym = view.findViewById(R.id.PingGym);
+        paigym = view.findViewById(R.id.PaiGym);
+
+        langym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"附近篮球场",Toast.LENGTH_SHORT).show();
+            }
+        });
+        yugym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"附近羽毛球场",Toast.LENGTH_SHORT).show();
+            }
+        });
+        pinggym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"附近乒乓球场",Toast.LENGTH_SHORT).show();
+            }
+        });
+        paigym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"附近排球场",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        gym.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(),"附近体育馆",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mTvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,48 +211,17 @@ public class HomeFragment extends Fragment implements AMapLocationListener {
     public void onLocationChanged(final AMapLocation amapLocation) {
         amapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
         city = amapLocation.getCity();//获取当前城市
+
         amapLocation.getAccuracy();//获取精度信息
-        if (null != city)
+        if (null != city){
             mTvPosition.setText(city);
+         position.setText(city);
+        }
     }
 
-//
-//    public void getLocation() {
-//        mLocationClient = new LocationClient(MainActivity.context);
-//        //声明LocationClient类
-//        mLocationClient.registerLocationListener(myListener);
-//        //注册监听函数
-//        LocationClientOption option = new LocationClientOption();
-//        option.setIsNeedAddress(true);
-//        //可选，是否需要地址信息，默认为不需要，即参数为false
-//        //如果开发者需要获得当前点的地址信息，此处必须为true
-//        mLocationClient.setLocOption(option);
-//        //mLocationClient为第二步初始化过的LocationClient对象
-//        //需将配置好的LocationClientOption对象，通过setLocOption方法传递给LocationClient对象使用
-//        //更多LocationClientOption的配置，请参照类参考中LocationClientOption类的详细说明
-//        mLocationClient.start();
-//    }
-//
-//    public class MyLocationListener extends BDAbstractLocationListener {
-//        @Override
-//        public void onReceiveLocation(BDLocation location){
-//            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-//            //以下只列举部分获取地址相关的结果信息
-//            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-//
-//            String addr = location.getAddrStr();    //获取详细地址信息
-//            String country = location.getCountry();    //获取国家
-//            String province = location.getProvince();    //获取省份
-//            String city = location.getCity();    //获取城市
-//            String district = location.getDistrict();    //获取区县
-//            String street = location.getStreet();    //获取街道信息
-//            if (city != null) {
-//                mTvPosition.setText(city);
-//                locationText = city;
-//            } else {
-//                mTvPosition.setText(locationText);
-//            }
-//        }
-//    }
+    @Override
+    public void onClick(View v) {
+
+}
 
 }
