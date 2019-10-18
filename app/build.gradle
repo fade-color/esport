@@ -42,4 +42,5 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     implementation 'com.lxj:xpopup:1.8.10-x'
     implementation files('libs/AMap3DMap_6.9.4_AMapNavi_6.9.1_AMapSearch_6.9.2_AMapTrack_1.1.0_AMapLocation_4.7.0_20190831.jar')
+    implementation 'com.brucetoo.pickview:library:1.2.3'
 }
