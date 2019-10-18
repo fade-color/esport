@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -29,13 +30,18 @@ import com.amap.api.location.AMapLocationListener;
 import com.fadecolor.esport.MainActivity;
 import com.fadecolor.esport.R;
 import com.fadecolor.esport.Util.GlideImageLoader;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.CenterPopupView;
+import com.lxj.xpopup.enums.PopupAnimation;
 import com.youth.banner.Banner;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.common.Constant;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -44,9 +50,7 @@ public class HomeFragment extends Fragment implements AMapLocationListener , Vie
 
     private RadioButton mTvPosition;
 
-    private TextView position;
-
-    private TextView mTvSearch;
+    private TextView mTvSearch, mTvTime, position;
 
     private Banner mBanner;
 
@@ -115,6 +119,20 @@ public class HomeFragment extends Fragment implements AMapLocationListener , Vie
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "不许点我>_<", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mTvTime = view.findViewById(R.id.tv_time);
+        SimpleDateFormat format = new SimpleDateFormat("MM月dd日", Locale.CHINA);
+        mTvTime.setText(format.format(new Date()));
+        mTvTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CustomPopup customPopup = new CustomPopup(getContext());
+                new XPopup.Builder(getContext())
+                        .popupAnimation(PopupAnimation.ScaleAlphaFromCenter)
+                        .autoOpenSoftInput(true)
+                        .asCustom(customPopup)
+                        .show();
             }
         });
         qrCodeScanner = view.findViewById(R.id.qr_code_scanner);
@@ -223,5 +241,46 @@ public class HomeFragment extends Fragment implements AMapLocationListener , Vie
     public void onClick(View v) {
 
 }
+
+    class CustomPopup extends CenterPopupView {
+        public CustomPopup(@NonNull Context context) {
+            super(context);
+        }
+
+        @Override
+        protected int getImplLayoutId() {
+            return R.layout.layout_select_date;
+        }
+        @Override
+        protected void onCreate() {
+            super.onCreate();
+            CalendarView calendarView = findViewById(R.id.cv_date);
+            Date date = new Date();
+            calendarView.setMinDate(date.getTime());
+            calendarView.setMaxDate(date.getTime()+1000*60*60*24*6);
+            calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                @Override
+                public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                    mTvTime.setText(month+1+"月"+dayOfMonth+"日");
+                    dismiss();
+                }
+            });
+        }
+
+        protected void onShow() {
+            super.onShow();
+        }
+
+//        @Override
+//        protected int getMaxHeight() {
+//            return 200;
+//        }
+//
+        //返回0表示让宽度撑满window，或者你可以返回一个任意宽度
+//        @Override
+//        protected int getMaxWidth() {
+//            return 1200;
+//        }
+    }
 
 }
