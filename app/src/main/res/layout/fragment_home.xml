@@ -133,11 +133,12 @@
                             android:paddingBottom="8dp">
 
                             <TextView
+                                android:id="@+id/position"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/item_board_right"
                                 android:paddingEnd="10dp"
-                                android:text="洛阳"
+                                android:text="北京"
                                 android:textColor="@color/colorBlack"
                                 android:textSize="18sp" />
 
@@ -224,6 +225,7 @@
                         android:layout_marginBottom="20dp">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/Gym"
                             android:layout_width="0dp"
                             android:layout_height="110dp"
                             android:layout_weight="1"
@@ -264,6 +266,7 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
+                                    android:id="@+id/YuGym"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
@@ -296,6 +299,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                    android:id="@+id/PingGym"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
@@ -336,6 +340,7 @@
                             android:orientation="vertical">
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/LanGym"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
@@ -368,6 +373,7 @@
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                    android:id="@+id/PaiGym"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
                                 android:layout_margin="5dp"
