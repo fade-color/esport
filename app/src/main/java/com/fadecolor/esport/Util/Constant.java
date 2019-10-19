@@ -14,4 +14,6 @@ public class Constant {
 
     public static final String UPLOAD_HEAD_PATH = SEVER_IP + "esport/user/uploadusericon";
 
+    public static final String GYM_IMG_PATH = SEVER_IP + "gymimage/" ;
+
 }

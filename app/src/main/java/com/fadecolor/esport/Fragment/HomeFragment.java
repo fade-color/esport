@@ -27,6 +27,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.fadecolor.esport.GymActivity;
 import com.fadecolor.esport.MainActivity;
 import com.fadecolor.esport.R;
 import com.fadecolor.esport.Util.GlideImageLoader;
@@ -83,37 +84,11 @@ public class HomeFragment extends Fragment implements AMapLocationListener , Vie
         pinggym = view.findViewById(R.id.PingGym);
         paigym = view.findViewById(R.id.PaiGym);
 
-        langym.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(),"附近篮球场",Toast.LENGTH_SHORT).show();
-            }
-        });
-        yugym.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(),"附近羽毛球场",Toast.LENGTH_SHORT).show();
-            }
-        });
-        pinggym.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(),"附近乒乓球场",Toast.LENGTH_SHORT).show();
-            }
-        });
-        paigym.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(),"附近排球场",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        gym.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(v.getContext(),"附近体育馆",Toast.LENGTH_SHORT).show();
-            }
-        });
+        langym.setOnClickListener(this);
+        yugym.setOnClickListener(this);
+        pinggym.setOnClickListener(this);
+        paigym.setOnClickListener(this);
+        gym.setOnClickListener(this);
 
         mTvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -239,6 +214,26 @@ public class HomeFragment extends Fragment implements AMapLocationListener , Vie
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), GymActivity.class);
+        int type = 0;
+        switch (v.getId()) {
+            case R.id.YuGym:
+                type = 1;
+               break;
+            case R.id.PingGym:
+                type = 4;
+               break;
+            case R.id.PaiGym:
+                type = 5;
+                break;
+            case R.id.LanGym:
+                type = 2;
+              break;
+            default:
+               break;
+        }
+        intent.putExtra("type",type);
+        startActivity(intent);
 
 }
 
