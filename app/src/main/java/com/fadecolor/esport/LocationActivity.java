@@ -163,7 +163,7 @@ public class LocationActivity extends BaseActivity implements CompoundButton.OnC
         d.add("不显示");
         for (PoiItem poi : pois) {
             String title = poi.getTitle();
-            d.add(title);
+            d.add(title+" "+poi.getTel()+" "+poi.getLatLonPoint().toString());
         }
         //listView.setAdapter(new MapListAdapter(MainActivity.this,d));
         adapter = new ArrayAdapter<String>(LocationActivity.this, android.R.layout.simple_list_item_1, d);
