@@ -74,9 +74,11 @@ public class GymActivity extends BaseActivity {
                         gym.setName(subGym.getString("name"));
                         gym.setPosition(subGym.getString("address"));
                         gym.setTel(subGym.getString("userTel"));
+                        gym.setDetail(subGym.getString("introduce"));
+                        gym.setGymId(subGym.getInt("gymId"));
                         gyms.add(gym);
                     }
-                    runOnUiThread(new Runnable() {
+                    runOnUiThread(new Runnable() {//切换到主线程
                         @Override
                         public void run() {
                             GymAdapter adapter = new GymAdapter(gyms);
