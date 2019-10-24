@@ -30,6 +30,8 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true">
+        <activity android:name=".GymDetailActivity">
+        </activity>
         <activity android:name=".GymActivity">
         </activity>
         <activity android:name=".SelectDateActivity"/>
