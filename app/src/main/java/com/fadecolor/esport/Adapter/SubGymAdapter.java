@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.fadecolor.esport.GymDetailActivity;
+import com.fadecolor.esport.OrderGymActivity;
 import com.fadecolor.esport.R;
 import com.fadecolor.esport.Util.Constant;
 import com.fadecolor.esport.domain.Gym;
@@ -49,7 +50,7 @@ static class ViewHolder extends RecyclerView.ViewHolder {
             @Override
         public void onClick(View v) {
             Gym gym = gyms.get(position);
-            Intent intent = new Intent(v.getContext(), GymDetailActivity.class);
+            Intent intent = new Intent(v.getContext(), OrderGymActivity.class);
             intent.putExtra("GymId",gym.getGymId());
             intent.putExtra("Id",gym.getId());
             v.getContext().startActivity(intent);

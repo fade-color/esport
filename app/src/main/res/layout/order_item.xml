@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="80dp"
+    android:layout_height="52dp"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@drawable/order_card_top"
+        android:text="8:00-9:00"
+        android:gravity="center"
+        android:textColor="@color/colorWhite" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:background="@drawable/order_card_bottom"
+        android:gravity="center"
+        android:textColor="@color/colorPurple"
+        android:text="10月12号" />
+
+</LinearLayout>
