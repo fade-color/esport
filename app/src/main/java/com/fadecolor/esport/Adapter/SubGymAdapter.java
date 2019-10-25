@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,27 +20,19 @@ import com.fadecolor.esport.domain.Gym;
 
 import java.util.List;
 
-public class SubGymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> implements View.OnClickListener {
+public class SubGymAdapter extends RecyclerView.Adapter<GymAdapter.ViewHolder> {
 
 private List<Gym> gyms;
 String[] SportName  = new String[]{"羽毛球", "篮球", "足球", "乒乓球", "排球"};
-
+int[] ImagePath = new int[]{R.drawable.ic_yu,R.drawable.ic_lan,R.drawable.ic_zu,R.drawable.ic_ping,R.drawable.ic_pai,};
 public SubGymAdapter (List<Gym> gyms) {
         this.gyms = gyms;
         }
 
 static class ViewHolder extends RecyclerView.ViewHolder {
-    TextView name, position, tel;
-    ImageView imageView;
-    CardView itemLayout;
 
     public ViewHolder(@NonNull View itemView) {
         super(itemView);
-        name = itemView.findViewById(R.id.Gym_name);
-        position = itemView.findViewById(R.id.Gym_position);
-        tel = itemView.findViewById(R.id.Gym_tel);
-        imageView = itemView.findViewById(R.id.Gym_image);
-        itemLayout = itemView.findViewById(R.id.item_info);
     }
 }
 
@@ -51,13 +44,6 @@ static class ViewHolder extends RecyclerView.ViewHolder {
         return holder;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.item_info:
-                Toast.makeText(v.getContext(), "123", Toast.LENGTH_SHORT).show();
-        }
-    }
     @Override
     public void onBindViewHolder(@NonNull GymAdapter.ViewHolder holder, final int position) {
         holder.itemLayout.setOnClickListener(new View.OnClickListener() {
@@ -71,15 +57,14 @@ static class ViewHolder extends RecyclerView.ViewHolder {
         }
     });
         Gym gym = gyms.get(position);
-        if (gym.getImageSrc() != null && !gym.getImageSrc().equals("null")) {
-            Glide.with(holder.itemView)
-                    .load(Constant.GYM_IMG_PATH + gym.getImageSrc())
-                    .into(holder.imageView);
-        } else {
-            holder.imageView.setImageResource(R.drawable.ic_user_default);
-        }
-        holder.position.setText(gym.getPosition());
-
+//        if (gym.getImageSrc() != null && !gym.getImageSrc().equals("null")) {
+//            Glide.with(holder.itemView)
+//                    .load(Constant.GYM_IMG_PATH + gym.getImageSrc())
+//                    .into(holder.imageView);
+//        } else {
+//            holder.imageView.setImageResource(R.drawable.ic_user_default);
+//        }
+        holder.imageView.setImageResource(ImagePath[gym.getType()-1]);
         holder.name.setText(SportName[gym.getType()-1]+"场");
         holder.position.setText("场馆类型：" + (gym.getKind()==1?"室外":"室内"));
         holder.tel.setText("容纳人数：" + gym.getMaxCount());
