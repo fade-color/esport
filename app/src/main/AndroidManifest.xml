@@ -23,25 +23,24 @@
     <uses-permission android:name="android.permission.NFC"/>
 
     <application
-            android:allowBackup="true"
-            android:icon="@mipmap/icon_launcher"
-            android:label="@string/app_name"
-            android:roundIcon="@mipmap/icon_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true">
+        android:allowBackup="true"
+        android:icon="@mipmap/icon_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/icon_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name=".GymDetailActivity">
         </activity>
-        <activity android:name=".GymActivity">
-        </activity>
-        <activity android:name=".SelectDateActivity"/>
-        <activity android:name=".LocationActivity"/>
-        <activity android:name=".CommentActivity"/>
-        <activity android:name=".PhotoViewActivity"/>
-        <activity android:name=".CreateActivity"/>
-        <activity android:name=".PersonalDetailsActivity"/>
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".tabactivity.AboutActivity"/>
+        <activity android:name=".OrderGymActivity"></activity>
+        <activity android:name=".GymActivity"></activity>
+        <activity android:name=".LocationActivity" />
+        <activity android:name=".CommentActivity" />
+        <activity android:name=".PhotoViewActivity" />
+        <activity android:name=".CreateActivity" />
+        <activity android:name=".PersonalDetailsActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".tabactivity.AboutActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
