@@ -8,14 +8,25 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bigkoo.svprogresshud.SVProgressHUD;
 import com.fadecolor.esport.Adapter.OrderAdapter;
+import com.fadecolor.esport.Util.Constant;
+import com.fadecolor.esport.Util.HttpUtil;
 import com.fadecolor.esport.domain.Order;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,18 +36,22 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
 public class OrderGymActivity extends BaseActivity {
 
-    CheckBox[][] orderMap = new CheckBox[7][14];
+    private CheckBox[][] orderMap = new CheckBox[7][14];
 
-    List<Order> orderList = new LinkedList<>();
+    private List<Order> orderList = new LinkedList<>();
 
-    Date[] dates = new Date[7];
+    private Date[] dates = new Date[7];
 
-    Map<String, Order> orderAddedMap = new HashMap<>();
+    private Map<String, Order> orderAddedMap = new HashMap<>();
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-    SimpleDateFormat dateFormat2 = new SimpleDateFormat("MM月dd日", Locale.CHINA);
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+    private SimpleDateFormat dateFormat2 = new SimpleDateFormat("MM月dd日", Locale.CHINA);
 
     public static final Map<Integer, String> timeMap;
 
@@ -45,6 +60,10 @@ public class OrderGymActivity extends BaseActivity {
     private int id;
 
     private String userTel;
+
+    private Button mBtnOrder;
+
+    int success = 0,fail = 0;
 
     static {
         timeMap = new HashMap<>();
@@ -89,17 +108,92 @@ public class OrderGymActivity extends BaseActivity {
         gymId = intent.getIntExtra("GymId",-1);
         id = intent.getIntExtra("Id", -1);
         SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
-        userTel = prefs.getString("account", "null");
+        userTel = prefs.getString("userId", "null");
         if (gymId == -1 || id == -1 || userTel.equals("null")) {
             finish();
         }
 
+        findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        disenableDate();
+
+        HttpUtil.sendOkHttpRequest(Constant.SEVER_ADDRESS + "/query/orderNear7Days?subGymId="+id, new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String responseData = response.body().string();
+                try {
+                    JSONArray orderedArray  = new JSONArray(responseData);
+                    for (int i = 0; i < orderedArray.length(); i++) {
+                        JSONObject subItem = orderedArray.getJSONObject(i);
+                        Date date = new Date(subItem.getLong("date"));
+                        Date today = new Date();
+                        String dateStr = dateFormat.format(date);
+                        String todayStr = dateFormat.format(today);
+                        int days = (int) ((dateFormat.parse(dateStr).getTime() - dateFormat.parse(todayStr).getTime()) / (1000*3600*24));
+                        int period = subItem.getInt("period");
+                        orderMap[days][period].setEnabled(false);
+                    }
+                } catch (JSONException | ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        mBtnOrder = findViewById(R.id.btn_order);
         RecyclerView orderSelected = findViewById(R.id.order_selected);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         orderSelected.setLayoutManager(linearLayoutManager);
         final OrderAdapter orderAdapter = new OrderAdapter(orderList);
         orderSelected.setAdapter(orderAdapter);
+
+        mBtnOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String text = mBtnOrder.getText().toString();
+                if (text.equals("提交订单")) {
+                    success = fail = 0;
+                    for (Order order : orderList) {
+                        String address = Constant.SEVER_ADDRESS + "/insert/order?userTel="+userTel+"&date="+dateFormat.format(order.getDate())+"&period="+order.getPeriod()+"&subGymId=" + id;
+                        HttpUtil.sendOkHttpRequest(address, new Callback() {
+                            @Override
+                            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                                e.printStackTrace();
+                                fail++;
+                            }
+
+                            @Override
+                            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                                String responseData = response.body().string();
+                                try {
+                                    JSONObject msg = new JSONObject(responseData);
+                                    int code = msg.getInt("code");
+                                    if (code == 100) {
+                                        success++;
+                                    } else {
+                                        fail++;
+                                    }
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
+                                    fail++;
+                                }
+                            }
+                        });
+                    }
+                    new SVProgressHUD(OrderGymActivity.this).showSuccessWithStatus("成功");
+                }
+            }
+        });
 
         for (int i = 0; i < orderMap.length; i++) {
             for (int j = 0; j < orderMap[i].length; j++) {
@@ -119,9 +213,23 @@ public class OrderGymActivity extends BaseActivity {
                             orderList.remove(orderAddedMap.get(col+""+period));
                         }
                         orderAdapter.notifyDataSetChanged();
+                        if (orderList.isEmpty()) {
+                            mBtnOrder.setText("请选择场次");
+                        } else {
+                            mBtnOrder.setText("提交订单");
+                        }
                     }
                 });
             }
+        }
+    }
+
+    private void disenableDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH",Locale.CHINA);
+        String format = simpleDateFormat.format(new Date());
+        int hour = Integer.parseInt(format);
+        for (int i = hour - 8; i >= 0; i--) {
+            orderMap[0][i].setEnabled(false);
         }
     }
 
