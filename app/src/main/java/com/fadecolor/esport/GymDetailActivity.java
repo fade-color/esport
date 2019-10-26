@@ -1,12 +1,10 @@
 package com.fadecolor.esport;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,13 +25,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class GymDetailActivity extends BaseActivity implements View.OnClickListener {
-    private ImageView GymImage,call;
+    private ImageView GymImage,call,imageView;
     private TextView GymName, GymPosition,GymTel,GymDetail;
     private RecyclerView recyclerView;
     private List<Gym> gyms;
+    private CheckBox collect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +52,10 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
         GymTel = findViewById(R.id.Gym_tel);
         GymDetail = findViewById(R.id.Gym_detail);
         recyclerView = findViewById(R.id.Gym_recyclerview);
+        imageView = findViewById(R.id.iv_back);
+        imageView.setOnClickListener(this);
         call = findViewById(R.id.call);
         call.setOnClickListener(this);
-
         init();
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -68,6 +69,7 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
         String position = getIntent().getStringExtra("GymPosition");
         final String tel = getIntent().getStringExtra("GymTel");
         String detail = getIntent().getStringExtra("GymDetail");
+        final int GymId = getIntent().getIntExtra("GymId",0);
         GymName.setText(name);
         GymPosition.setText(position);
         GymTel.setText(tel);
@@ -89,8 +91,19 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
-
-        final int GymId = getIntent().getIntExtra("GymId",0);
+        collect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
+                    HashSet<String> collect1 = (HashSet<String>) prefs.getStringSet("collect_Gym_id", new HashSet<String>());
+                    SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
+                    collect1.add(GymId+"");
+                    editor.putStringSet("collect_Gym_id",collect1);
+                    editor.apply();
+                }
+            }
+        });
         String address  = Constant.SEVER_ADDRESS + "/query/subGymByGymId?gymId="+GymId;
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override
@@ -140,7 +153,10 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
                 intent = new Intent(Intent.ACTION_DIAL);
                 startActivity(intent);
                 break;
-
+            case R.id.iv_back:
+                setResult(0);
+                finish();
+                break;
         }
     }
 }

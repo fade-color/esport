@@ -29,6 +29,11 @@
                 android:textSize="18sp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"/>
+        <CheckBox
+                android:id="@+id/collect"
+                android:layout_width="22dp"
+                   android:layout_height="22dp"
+        android:background="@drawable/collect"/>
 
     </LinearLayout>
     <View
