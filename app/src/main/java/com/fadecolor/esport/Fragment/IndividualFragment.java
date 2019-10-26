@@ -19,10 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.fadecolor.esport.LoginActivity;
-import com.fadecolor.esport.MainActivity;
-import com.fadecolor.esport.PersonalDetailsActivity;
-import com.fadecolor.esport.R;
+import com.fadecolor.esport.*;
 import com.fadecolor.esport.Util.Constant;
 import com.fadecolor.esport.Util.HttpUtil;
 import com.fadecolor.esport.domain.User;
@@ -47,6 +44,9 @@ public class IndividualFragment extends Fragment implements View.OnClickListener
 
     private RelativeLayout headerRelativeLayout;
 
+    private LinearLayout btn,collect;
+
+
     private User user;
 
     @Nullable
@@ -57,6 +57,10 @@ public class IndividualFragment extends Fragment implements View.OnClickListener
         mBtnLogout = view.findViewById(R.id.btn_logout);
         mIvHead = view.findViewById(R.id.iv_head);
         mTvName = view.findViewById(R.id.tv_name);
+        btn = view.findViewById(R.id.btn);
+        collect = view.findViewById(R.id.collect);
+        collect.setOnClickListener(this);
+        btn.setOnClickListener(this);
         headerRelativeLayout = view.findViewById(R.id.header_relative_layout);
         headerRelativeLayout.setOnClickListener(this);
         SharedPreferences prefs = view.getContext().getSharedPreferences("account", Context.MODE_PRIVATE);
@@ -108,6 +112,15 @@ public class IndividualFragment extends Fragment implements View.OnClickListener
                 startActivity(intent);
                 getActivity().finish();
                 break;
+            case R.id.btn:
+                intent = new Intent(view.getContext(), MyOrderActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.collect:
+//                intent = new Intent(view.getContext(), MyCollectActivity.class);
+//                startActivity(intent);
+                break;
+
         }
     }
 
