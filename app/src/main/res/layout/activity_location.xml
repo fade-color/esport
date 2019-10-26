@@ -23,18 +23,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="发表动态"
+                android:text="我的位置"
                 android:textSize="18sp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold" />
-
-        <TextView
-                android:id="@+id/tv_submit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="发布"
-                android:textSize="17sp"
-                android:textColor="@color/colorPurple"/>
 
     </LinearLayout>
     <androidx.appcompat.widget.SearchView

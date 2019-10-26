@@ -117,8 +117,8 @@ public class IndividualFragment extends Fragment implements View.OnClickListener
                 startActivity(intent);
                 break;
             case R.id.collect:
-//                intent = new Intent(view.getContext(), MyCollectActivity.class);
-//                startActivity(intent);
+                intent = new Intent(view.getContext(), MyCollectActivity.class);
+                startActivity(intent);
                 break;
 
         }

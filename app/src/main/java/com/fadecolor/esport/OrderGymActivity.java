@@ -141,7 +141,8 @@ public class OrderGymActivity extends BaseActivity {
                         String todayStr = dateFormat.format(today);
                         int days = (int) ((dateFormat.parse(dateStr).getTime() - dateFormat.parse(todayStr).getTime()) / (1000*3600*24));
                         int period = subItem.getInt("period");
-                        orderMap[days][period].setEnabled(false);
+                        if (days >= 0)
+                            orderMap[days][period].setEnabled(false);
                     }
                 } catch (JSONException | ParseException e) {
                     e.printStackTrace();

@@ -34,7 +34,7 @@ import com.fadecolor.esport.Fragment.DynamicFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LocationActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AMapLocationListener, LocationSource, PoiSearch.OnPoiSearchListener, Inputtips.InputtipsListener, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener {
+public class LocationActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, AMapLocationListener, LocationSource, PoiSearch.OnPoiSearchListener, Inputtips.InputtipsListener, SearchView.OnQueryTextListener, AdapterView.OnItemClickListener, View.OnClickListener {
 
     private AMapLocationClient locationClient = null;
     private AMapLocationClientOption locationClientOption = null;    //定位参数类
@@ -50,6 +50,7 @@ public class LocationActivity extends BaseActivity implements CompoundButton.OnC
     private ArrayAdapter<String> adapter;
     private LatLonPoint point;
     private int t = 0;
+    private ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class LocationActivity extends BaseActivity implements CompoundButton.OnC
 
         listView = findViewById(R.id.list_view1);
         searchView = findViewById(R.id.input);
+        back = findViewById(R.id.iv_back);
+        back.setOnClickListener(this);
         searchView.setOnQueryTextListener(this);
         requestPermission();
 
@@ -163,7 +166,7 @@ public class LocationActivity extends BaseActivity implements CompoundButton.OnC
         d.add("不显示");
         for (PoiItem poi : pois) {
             String title = poi.getTitle();
-            d.add(title+" "+poi.getTel()+" "+poi.getLatLonPoint().toString());
+            d.add(title);
         }
         //listView.setAdapter(new MapListAdapter(MainActivity.this,d));
         adapter = new ArrayAdapter<String>(LocationActivity.this, android.R.layout.simple_list_item_1, d);
@@ -253,4 +256,9 @@ public class LocationActivity extends BaseActivity implements CompoundButton.OnC
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        setResult(0);
+        finish();
+    }
 }

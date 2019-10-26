@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.os.Bundle;
+import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.fadecolor.esport.Adapter.GymAdapter;
@@ -30,6 +31,7 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
     private RecyclerView recyclerView;
     private ImageView imageView;
     private List<Order> orders;
+    private LinearLayout Yes,No;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +43,12 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
         if (resourceId > 0) {
             statusBarHeight = getResources().getDimensionPixelOffset(resourceId);
         }
-        LinearLayout linearLayout = findViewById(R.id.linear_layout);
+        RelativeLayout linearLayout = findViewById(R.id.linear_layout);
         linearLayout.setPadding(linearLayout.getPaddingStart(), statusBarHeight, linearLayout.getPaddingEnd(), linearLayout.getPaddingBottom());
         recyclerView = findViewById(R.id.Order_recyclerview);
         imageView = findViewById(R.id.iv_back);
+        Yes = findViewById(R.id.Yes);
+        No = findViewById(R.id.none);
         imageView.setOnClickListener(this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -79,11 +83,17 @@ public class MyOrderActivity extends BaseActivity implements View.OnClickListene
                     runOnUiThread(new Runnable() {//切换到主线程
                         @Override
                         public void run() {
+                            if (orders.isEmpty()){
+                                No.setVisibility(View.VISIBLE);
+                                Yes.setVisibility(View.GONE);
+                            } else {
                             MyOrderAdapter adapter = new MyOrderAdapter(orders);
-                            recyclerView.setAdapter(adapter);
+                            recyclerView.setAdapter(adapter);}
                         }
                     });
                 } catch (Exception e) {
+
+
                     e.printStackTrace();
                 }
             }
