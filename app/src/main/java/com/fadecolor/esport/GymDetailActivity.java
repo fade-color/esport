@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 public class GymDetailActivity extends BaseActivity implements View.OnClickListener {
@@ -34,6 +35,8 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
     private RecyclerView recyclerView;
     private List<Gym> gyms;
     private CheckBox collect;
+    private int GymId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,8 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
         }
         LinearLayout linearLayout = findViewById(R.id.linear_layout);
         linearLayout.setPadding(linearLayout.getPaddingStart(), statusBarHeight, linearLayout.getPaddingEnd(), linearLayout.getPaddingBottom());
+        SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
+        HashSet<String> collect1 = (HashSet<String>) prefs.getStringSet("collect_Gym_id", new HashSet<String>());
 
         GymImage = findViewById(R.id.Gym_image);
         GymName = findViewById(R.id.Gym_name);
@@ -55,8 +60,16 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
         imageView = findViewById(R.id.iv_back);
         imageView.setOnClickListener(this);
         call = findViewById(R.id.call);
+        collect = findViewById(R.id.collect);
         call.setOnClickListener(this);
         init();
+        Iterator<String> iterator = collect1.iterator();
+        while (iterator.hasNext()) {
+            String next = iterator.next();
+            if (next.equals(GymId+"")) {
+                collect.setChecked(true);
+            }
+        }
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -69,7 +82,7 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
         String position = getIntent().getStringExtra("GymPosition");
         final String tel = getIntent().getStringExtra("GymTel");
         String detail = getIntent().getStringExtra("GymDetail");
-        final int GymId = getIntent().getIntExtra("GymId",0);
+        GymId = getIntent().getIntExtra("GymId",0);
         GymName.setText(name);
         GymPosition.setText(position);
         GymTel.setText(tel);
@@ -91,19 +104,22 @@ public class GymDetailActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
+        //
         collect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
+                HashSet<String> collect1 = (HashSet<String>) prefs.getStringSet("collect_Gym_id", new HashSet<String>());
+                SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
                 if (isChecked){
-                    SharedPreferences prefs = getSharedPreferences("account", MODE_PRIVATE);
-                    HashSet<String> collect1 = (HashSet<String>) prefs.getStringSet("collect_Gym_id", new HashSet<String>());
-                    SharedPreferences.Editor editor = getSharedPreferences("account", MODE_PRIVATE).edit();
                     collect1.add(GymId+"");
                     editor.putStringSet("collect_Gym_id",collect1);
-                    editor.apply();
+                } else {
+                    collect1.remove(GymId+"");
                 }
+                editor.apply();
             }
-        });
+        });//
         String address  = Constant.SEVER_ADDRESS + "/query/subGymByGymId?gymId="+GymId;
         HttpUtil.sendOkHttpRequest(address, new Callback() {
             @Override

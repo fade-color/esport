@@ -31,9 +31,11 @@
                 android:textStyle="bold"/>
         <CheckBox
                 android:id="@+id/collect"
-                android:layout_width="22dp"
-                   android:layout_height="22dp"
-        android:background="@drawable/collect"/>
+                android:background="@drawable/collect"
+                android:layout_width="24dp"
+                   android:layout_height="24dp"
+       android:button="@null"
+        />
 
     </LinearLayout>
     <View
@@ -105,15 +107,7 @@
                             android:text="4.5分"
                             android:textSize="15sp"
                     />
-                    <TextView
-                            android:layout_marginEnd="100dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:text="人均:￥30"
-                            android:textSize="15sp"
-                            android:layout_weight="1"
-                    />
+
 
                 </LinearLayout>
 

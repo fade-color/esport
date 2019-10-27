@@ -12,8 +12,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         <androidx.cardview.widget.CardView
+                android:id="@+id/card"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 android:layout_margin="4dp"
         >
@@ -38,6 +39,7 @@
                             android:drawableRight="@drawable/ic_qianjin"
                             android:textColor="@color/colorDeepBlack"/>
                     <TextView
+                            android:id="@+id/youxiao"
                             android:layout_marginTop="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -103,7 +105,8 @@
                         android:paddingTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp">
                     <TextView
                             android:layout_width="0dp"
                             android:layout_weight="1"
